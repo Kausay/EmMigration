@@ -5,6 +5,7 @@
  */
 package emmigration.classes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +16,8 @@ public class Mail {
 
        
     private String address;
-    private List<String> secondary;
-    private List<NTFS> MailboxSecurityGroups;
+    private List<String> secondary = new ArrayList<>();
+    private List<NTFS> MailboxSecurityGroups = new ArrayList<>();
     
     public Mail(String address){
         this.address = address;

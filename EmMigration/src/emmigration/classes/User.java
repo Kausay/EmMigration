@@ -14,19 +14,26 @@ import java.util.List;
  */
 public class User {
 
-      
+    
+/*
+Powershell command:
+Get-ADGroupMember 'userspremium' | Get-ADUser -Properties * | select -Property GivenName, Surname, 
+    DisplayName, UserPrincipalName, SamAccountName | Export-Csv C:\share\adusers.csv -Delimiter ';' -NoTypeInformation
+    
+*/
+    
     private String FirstName;
     private String SurName;
     private String DisplayName;
     private int PhoneNumber;
+    private String OU = "OU=Users,OU=MyBusiness,OU=Domain Controllers,DC=internal,DC=koenvandewal,DC=nl";
     private List<Mail> MailAddresses = new ArrayList<>();
     private List<NTFS> SecurityGroups = new ArrayList<>();
     
-    public User(String FirstName,String SurName,String DisplayName,int PhoneNumber, List<Mail> MailAddresses){
+    public User(String FirstName,String SurName,String DisplayName, List<Mail> MailAddresses){
         this.FirstName = FirstName;
         this.SurName = SurName;
         this.DisplayName = DisplayName;
-        this.PhoneNumber = PhoneNumber;
         this.MailAddresses = MailAddresses;
     }
     
@@ -86,7 +93,32 @@ public class User {
         this.PhoneNumber = PhoneNumber;
     }
     
-    public String GetUser(User user){
-        return user.getDisplayName();
+     /**
+     * @return the MailAddresses
+     */
+    public List<Mail> getMailAddresses() {
+        return MailAddresses;
     }
+
+    /**
+     * @param MailAddresses the MailAddresses to set
+     */
+    public void setMailAddresses(List<Mail> MailAddresses) {
+        this.MailAddresses = MailAddresses;
+    }
+
+    /**
+     * @return the SecurityGroups
+     */
+    public List<NTFS> getSecurityGroups() {
+        return SecurityGroups;
+    }
+
+    /**
+     * @param SecurityGroups the SecurityGroups to set
+     */
+    public void setSecurityGroups(List<NTFS> SecurityGroups) {
+        this.SecurityGroups = SecurityGroups;
+    }
+
 }

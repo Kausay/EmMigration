@@ -21,14 +21,21 @@ import java.util.List;
 public class EmMigration {
 
     
-    List<Mail> MailAddresses = new ArrayList<>();
-    List<User> users = new ArrayList<>();
-    List<NTFS> SecurityGroups = new ArrayList<>();
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here               
-    
+        List<Mail> MailAddresses = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        List<NTFS> SecurityGroups = new ArrayList<>();
+        
+        Mail mail = new Mail("vandewal.koen@gmail.com");
+        MailAddresses.add(mail);
+        
+        User user = new User("Koen", "van de Wal", "Koen van de Wal",MailAddresses);
+        System.out.println(user.getMailAddresses().get(0).getAddress());
     }
+   
 }
