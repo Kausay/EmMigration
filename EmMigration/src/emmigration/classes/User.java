@@ -25,16 +25,17 @@ Get-ADGroupMember 'userspremium' | Get-ADUser -Properties * | select -Property G
     private String FirstName;
     private String SurName;
     private String DisplayName;
+    private String SamAccountName;
     private int PhoneNumber;
     private String OU = "OU=Users,OU=MyBusiness,OU=Domain Controllers,DC=internal,DC=koenvandewal,DC=nl";
     private List<Mail> MailAddresses = new ArrayList<>();
     private List<NTFS> SecurityGroups = new ArrayList<>();
     
-    public User(String FirstName,String SurName,String DisplayName, List<Mail> MailAddresses){
+    public User(String FirstName,String SurName,String DisplayName, String SamAccountName){
         this.FirstName = FirstName;
         this.SurName = SurName;
         this.DisplayName = DisplayName;
-        this.MailAddresses = MailAddresses;
+        this.SamAccountName = SamAccountName;
     }
     
     /**
@@ -77,6 +78,20 @@ Get-ADGroupMember 'userspremium' | Get-ADUser -Properties * | select -Property G
      */
     public void setDisplayName(String DisplayName) {
         this.DisplayName = DisplayName;
+    }
+
+    /**
+     * @return the SamAccountName
+     */
+    public String getSamAccountName() {
+        return SamAccountName;
+    }
+
+    /**
+     * @param SamAccountName the SamAccountName to set
+     */
+    public void setSamAccountName(String SamAccountName) {
+        this.SamAccountName = SamAccountName;
     }
 
     /**

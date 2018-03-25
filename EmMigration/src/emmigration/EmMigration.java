@@ -5,12 +5,14 @@
  */
 package emmigration;
 
+import Database.SQL;
 import emmigration.classes.Mail;
 import emmigration.classes.NTFS;
 import emmigration.classes.User;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import static java.lang.System.out;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +27,19 @@ public class EmMigration {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here               
         List<Mail> MailAddresses = new ArrayList<>();
-        List<User> users = new ArrayList<>();
+        List<User> users;
         List<NTFS> SecurityGroups = new ArrayList<>();
         
-        Mail mail = new Mail("vandewal.koen@gmail.com");
-        MailAddresses.add(mail);
-        
-        User user = new User("Koen", "van de Wal", "Koen van de Wal",MailAddresses);
-        System.out.println(user.getMailAddresses().get(0).getAddress());
+        SQL sql = new SQL();
+        System.out.println(sql.getConnection());
+        users = sql.getUsers();
+        for(User u : users)
+        {
+            System.out.println(u.getDisplayName() + " " + u.getSamAccountName());
+        }
     }
    
 }
