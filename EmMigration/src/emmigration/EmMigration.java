@@ -31,15 +31,13 @@ public class EmMigration {
         // TODO code application logic here               
         List<Mail> MailAddresses = new ArrayList<>();
         List<User> users;
-        List<NTFS> SecurityGroups = new ArrayList<>();
+        List<NTFS> groups;
         
         SQL sql = new SQL();
         System.out.println(sql.getConnection());
         users = sql.getUsers();
-        for(User u : users)
-        {
-            System.out.println(u.getDisplayName() + " " + u.getSamAccountName());
-        }
+        sql.firstRun();
+       // groups = sql.getGroups();
     }
    
 }

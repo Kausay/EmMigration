@@ -5,6 +5,7 @@
  */
 package Database;
 
+import emmigration.classes.NTFS;
 import emmigration.classes.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,5 +57,82 @@ public class SQL {
         users.add(new User(FirstName, SurName, DisplayName, SamAccountName));
         }
         return users;
+    }
+    
+    public void firstRun() throws SQLException{
+        List<NTFS> groups = new ArrayList<>();
+        prep = con.prepareStatement("SELECT * FROM Em_NTFS");
+        ResultSet result = prep.executeQuery();
+        
+        while(result.next()){
+        List<User> members = new ArrayList<>();
+        String Group = result.getString("Group");
+        String Member = result.getString("Member");
+        NTFS group = new NTFS(Group);
+        groups.add(group);
+        String[] SplitMembers = Member.split(",");
+        
+        if(SplitMembers.length >= 1){
+        for(String m : SplitMembers){
+            for(User u : users){
+                if(m.equals(u.getSamAccountName()))
+                {
+                    members.add(u);
+                }
+            }
+        }
+        group.setUsers(members);
+        }
+        }
+        
+        
+        prep = con.prepareStatement("DELETE FROM Em_NTFS");
+        prep.executeUpdate();
+        
+        prep = con.prepareStatement("INSERT INTO Em_NTFS VALUES(?,?)");
+        for(NTFS g : groups){
+            if(!g.getUsers().isEmpty()){
+            for(User u : g.getUsers())
+            {
+                prep.setString(1, g.getSecurityGroup());
+                prep.setString(2,  u.getSamAccountName());
+                prep.executeUpdate();
+            }
+            }
+            else{
+                prep.setString(1, g.getSecurityGroup());
+                prep.setString(2, "null");
+                prep.executeUpdate();
+            }
+        
+        
+        }
+    }
+    
+    public List<NTFS> getGroups() throws SQLException{
+         
+        List<NTFS> groups = new ArrayList<>();
+        prep = con.prepareStatement("SELECT * FROM Em_NTFS");
+        ResultSet result = prep.executeQuery();
+        
+        while(result.next()){
+        List<User> members = new ArrayList<>();
+        String Group = result.getString("Group");
+        String Member = result.getString("Member");
+        NTFS group = new NTFS(Group);
+        groups.add(group);
+        String[] SplitMembers = Member.split(",");
+        
+        for(String m : SplitMembers){
+            for(User u : users){
+                if(m.equals(u.getSamAccountName()))
+                {
+                    members.add(u);
+                }
+            }
+        }
+        group.setUsers(members);
+        }
+        return groups;
     }
 }
