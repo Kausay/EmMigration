@@ -27,6 +27,8 @@ public class EmMigration {
     /**
      * @param args the command line arguments
      */
+    
+    /*
     public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here               
         List<Mail> MailAddresses = new ArrayList<>();
@@ -39,5 +41,5 @@ public class EmMigration {
         sql.firstRun();
        // groups = sql.getGroups();
     }
-   
+   */
 }
