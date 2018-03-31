@@ -98,6 +98,9 @@ public class Login extends javax.swing.JFrame {
         boolean login = sql.Login(txtUsername.getText(), txtPassword.getText());
         if(login == true){
             lblLogin.setText("Gebruiker " + txtUsername.getText() + " ingelogd.");
+            this.setVisible(false);
+            UploadScreen upload = new UploadScreen();
+            upload.setVisible(true);
         }
         else{
             lblLogin.setText("Gebruikersnaam of wachtwoord verkeerd.");
