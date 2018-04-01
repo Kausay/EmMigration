@@ -6,6 +6,11 @@
 package GUI;
 
 import Database.SQL;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,11 +19,14 @@ import Database.SQL;
 public class Login extends javax.swing.JFrame {
 
     static SQL sql;
+
     /**
      * Creates new form Login
      */
     public Login() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
     }
 
     /**
@@ -96,13 +104,18 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
         boolean login = sql.Login(txtUsername.getText(), txtPassword.getText());
-        if(login == true){
+        if (login == true) {
             lblLogin.setText("Gebruiker " + txtUsername.getText() + " ingelogd.");
             this.setVisible(false);
-            UploadScreen upload = new UploadScreen();
-            upload.setVisible(true);
-        }
-        else{
+            UploadScreen upload;
+            try {
+                upload = new UploadScreen();
+                upload.setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
             lblLogin.setText("Gebruikersnaam of wachtwoord verkeerd.");
         }
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -155,7 +168,7 @@ public class Login extends javax.swing.JFrame {
                 new Login().setVisible(true);
             }
         });
-        
+
         sql = new SQL();
         System.out.println(sql.getConnection());
     }

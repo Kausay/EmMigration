@@ -19,25 +19,25 @@ public class NTFS {
     
     */
     
-    private String SecurityGroup;
+    private String securityGroup;
     private List<User> users = new ArrayList<>();
     
     public NTFS(String SecurityGroup){
-        this.SecurityGroup = SecurityGroup;
+        this.securityGroup = SecurityGroup;
     }
 
     /**
      * @return the SecurityGroup
      */
     public String getSecurityGroup() {
-        return SecurityGroup;
+        return securityGroup;
     }
 
     /**
      * @param SecurityGroup the SecurityGroup to set
      */
     public void setSecurityGroup(String SecurityGroup) {
-        this.SecurityGroup = SecurityGroup;
+        this.securityGroup = SecurityGroup;
     }
 
     /**

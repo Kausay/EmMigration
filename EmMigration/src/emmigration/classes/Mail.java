@@ -17,7 +17,7 @@ public class Mail {
        
     private String address;
     private List<String> secondary = new ArrayList<>();
-    private List<NTFS> MailboxSecurityGroups = new ArrayList<>();
+    private List<NTFS> mailboxSecurityGroups = new ArrayList<>();
     
     public Mail(String address){
         this.address = address;
@@ -61,14 +61,14 @@ public class Mail {
      * @return the MailboxSecurityGroups
      */
     public List<NTFS> getMailboxSecurityGroups() {
-        return MailboxSecurityGroups;
+        return mailboxSecurityGroups;
     }
 
     /**
      * @param MailboxSecurityGroups the MailboxSecurityGroups to set
      */
     public void setMailboxSecurityGroups(List<NTFS> MailboxSecurityGroups) {
-        this.MailboxSecurityGroups = MailboxSecurityGroups;
+        this.mailboxSecurityGroups = MailboxSecurityGroups;
     }
     
 }

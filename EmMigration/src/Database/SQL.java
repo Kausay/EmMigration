@@ -46,10 +46,11 @@ public class SQL {
     public boolean Login(String username, String password) {
 
         try {
-            prep = con.prepareStatement("SELECT sqlUserName, isAdmin FROM Em_sqlUsers WHERE sqlUserName='" + username + "' AND sqlPassword='" + password + "'");
+            prep = con.prepareStatement("SELECT userName, isAdmin FROM Em_sqlUser WHERE userName='" + username + "' AND password='" + password + "'");
             ResultSet result = prep.executeQuery();
             while (result.next()) {
-                if (result.getString("sqlUserName").equals(username)) {
+                if (result.getString("userName").equals(username)) {
+                    getUsers();
                     return true;
                 }
             }
@@ -58,66 +59,45 @@ public class SQL {
         }
         return false;
     }
+    
+    public void AddUser(User user){
+        try{
+            prep = con.prepareStatement("INSERT INTO Em_User VALUES(?,?,?,?,?)");
+            prep.setString(1, user.getFirstName());
+            prep.setString(2, user.getSurName());
+            prep.setString(3, user.getDisplayName());
+            prep.setString(4, user.getUserPrincipalName());
+            prep.setString(5, user.getSamAccountName());
+            prep.executeUpdate();
+        }
+        catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void AddGroup(NTFS group){
+        
+    }
+    
+    public void AddMembersToGroup(NTFS group, String user){
+        
+    }
 
     public List<User> getUsers() throws SQLException {
         users = new ArrayList<>();
-        prep = con.prepareStatement("SELECT * FROM Em_Users");
+        prep = con.prepareStatement("SELECT * FROM Em_User");
         ResultSet result = prep.executeQuery();
 
         while (result.next()) {
-            String FirstName = result.getString("FirstName");
-            String SurName = result.getString("SurName");
-            String DisplayName = result.getString("DisplayName");
-            String SamAccountName = result.getString("SamAccountName");
-            users.add(new User(FirstName, SurName, DisplayName, SamAccountName));
+            String FirstName = result.getString("firstName");
+            String SurName = result.getString("surName");
+            String DisplayName = result.getString("displayName");
+            String UserPrincipalName = result.getString("userPrincipalName");
+            String SamAccountName = result.getString("samAccountName");
+            users.add(new User(FirstName, SurName, DisplayName, UserPrincipalName, SamAccountName));
         }
         return users;
-    }
-
-    public void firstRun() throws SQLException {
-        List<NTFS> groups = new ArrayList<>();
-        prep = con.prepareStatement("SELECT * FROM Em_NTFS");
-        ResultSet result = prep.executeQuery();
-
-        while (result.next()) {
-            List<User> members = new ArrayList<>();
-            String Group = result.getString("Group");
-            String Member = result.getString("Member");
-            NTFS group = new NTFS(Group);
-            groups.add(group);
-            String[] SplitMembers = Member.split(",");
-
-            if (SplitMembers.length >= 1) {
-                for (String m : SplitMembers) {
-                    for (User u : users) {
-                        if (m.equals(u.getSamAccountName())) {
-                            members.add(u);
-                        }
-                    }
-                }
-                group.setUsers(members);
-            }
-        }
-
-        prep = con.prepareStatement("DELETE FROM Em_NTFS");
-        prep.executeUpdate();
-
-        prep = con.prepareStatement("INSERT INTO Em_NTFS VALUES(?,?)");
-        for (NTFS g : groups) {
-            if (!g.getUsers().isEmpty()) {
-                for (User u : g.getUsers()) {
-                    prep.setString(1, g.getSecurityGroup());
-                    prep.setString(2, u.getSamAccountName());
-                    prep.executeUpdate();
-                }
-            } else {
-                prep.setString(1, g.getSecurityGroup());
-                prep.setString(2, "null");
-                prep.executeUpdate();
-            }
-
-        }
-    }
+    }    
 
     public List<NTFS> getGroups() throws SQLException {
 

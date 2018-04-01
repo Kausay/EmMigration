@@ -20,120 +20,153 @@ Powershell command:
 Get-ADGroupMember 'userspremium' | Get-ADUser -Properties * | select -Property GivenName, Surname, 
     DisplayName, UserPrincipalName, SamAccountName | Export-Csv C:\share\adusers.csv -Delimiter ';' -NoTypeInformation
     
+    Later toevoegen: phoneNumber, primarySMTPAddress
 */
     
-    private String FirstName;
-    private String SurName;
-    private String DisplayName;
-    private String SamAccountName;
-    private int PhoneNumber;
+    private String firstName;
+    private String surName;
+    private String displayName;
+    private String userPrincipalName;
+    private String samAccountName;
+    private int phoneNumber;
     private String OU = "OU=Users,OU=MyBusiness,OU=Domain Controllers,DC=internal,DC=koenvandewal,DC=nl";
-    private List<Mail> MailAddresses = new ArrayList<>();
-    private List<NTFS> SecurityGroups = new ArrayList<>();
+    private List<Mail> mailAddresses = new ArrayList<>();
+    private List<NTFS> securityGroups = new ArrayList<>();
     
-    public User(String FirstName,String SurName,String DisplayName, String SamAccountName){
-        this.FirstName = FirstName;
-        this.SurName = SurName;
-        this.DisplayName = DisplayName;
-        this.SamAccountName = SamAccountName;
+    public User(String firstName,String surName,String displayName,String userPrincipalName, String samAccountName){
+        this.firstName = firstName;
+        this.surName = surName;
+        this.displayName = displayName;
+        this.userPrincipalName = userPrincipalName;
+        this.samAccountName = samAccountName;
     }
-    
+
     /**
-     * @return the FirstName
+     * @return the firstName
      */
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     /**
-     * @param FirstName the FirstName to set
+     * @param firstName the firstName to set
      */
-    public void setFirstName(String FirstName) {
-        this.FirstName = FirstName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     /**
-     * @return the SurName
+     * @return the surName
      */
     public String getSurName() {
-        return SurName;
+        return surName;
     }
 
     /**
-     * @param SurName the SurName to set
+     * @param surName the surName to set
      */
-    public void setSurName(String SurName) {
-        this.SurName = SurName;
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
 
     /**
-     * @return the DisplayName
+     * @return the displayName
      */
     public String getDisplayName() {
-        return DisplayName;
+        return displayName;
     }
 
     /**
-     * @param DisplayName the DisplayName to set
+     * @param displayName the displayName to set
      */
-    public void setDisplayName(String DisplayName) {
-        this.DisplayName = DisplayName;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     /**
-     * @return the SamAccountName
+     * @return the userPrincipalName
+     */
+    public String getUserPrincipalName() {
+        return userPrincipalName;
+    }
+
+    /**
+     * @param userPrincipalName the userPrincipalName to set
+     */
+    public void setUserPrincipalName(String userPrincipalName) {
+        this.userPrincipalName = userPrincipalName;
+    }
+
+    /**
+     * @return the samAccountName
      */
     public String getSamAccountName() {
-        return SamAccountName;
+        return samAccountName;
     }
 
     /**
-     * @param SamAccountName the SamAccountName to set
+     * @param samAccountName the samAccountName to set
      */
-    public void setSamAccountName(String SamAccountName) {
-        this.SamAccountName = SamAccountName;
+    public void setSamAccountName(String samAccountName) {
+        this.samAccountName = samAccountName;
     }
 
     /**
-     * @return the PhoneNumber
+     * @return the phoneNumber
      */
     public int getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     /**
-     * @param PhoneNumber the PhoneNumber to set
+     * @param phoneNumber the phoneNumber to set
      */
-    public void setPhoneNumber(int PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    
-     /**
-     * @return the MailAddresses
+
+    /**
+     * @return the OU
+     */
+    public String getOU() {
+        return OU;
+    }
+
+    /**
+     * @param OU the OU to set
+     */
+    public void setOU(String OU) {
+        this.OU = OU;
+    }
+
+    /**
+     * @return the mailAddresses
      */
     public List<Mail> getMailAddresses() {
-        return MailAddresses;
+        return mailAddresses;
     }
 
     /**
-     * @param MailAddresses the MailAddresses to set
+     * @param mailAddresses the mailAddresses to set
      */
-    public void setMailAddresses(List<Mail> MailAddresses) {
-        this.MailAddresses = MailAddresses;
+    public void setMailAddresses(List<Mail> mailAddresses) {
+        this.mailAddresses = mailAddresses;
     }
 
     /**
-     * @return the SecurityGroups
+     * @return the securityGroups
      */
     public List<NTFS> getSecurityGroups() {
-        return SecurityGroups;
+        return securityGroups;
     }
 
     /**
-     * @param SecurityGroups the SecurityGroups to set
+     * @param securityGroups the securityGroups to set
      */
-    public void setSecurityGroups(List<NTFS> SecurityGroups) {
-        this.SecurityGroups = SecurityGroups;
+    public void setSecurityGroups(List<NTFS> securityGroups) {
+        this.securityGroups = securityGroups;
     }
+    
+    
 
 }
