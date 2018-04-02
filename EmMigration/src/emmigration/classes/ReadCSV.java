@@ -49,12 +49,22 @@ public class ReadCSV {
             String[] secGroup = line.split(";");
             NTFS securityGroup = new NTFS(secGroup[0]);
             sql.AddGroup(securityGroup);
+            System.out.println(securityGroup.getSecurityGroup());
+            
+        }
+        br.close();
+        br = new BufferedReader(new FileReader(file));
+        br.readLine();
+        while ((line = br.readLine()) != null){
+            String[] secGroup = line.split(";");
             String[] members = secGroup[1].split(",");
             for(String member : members)
             {
-                sql.AddMembersToGroup(securityGroup, member.replaceAll("\"", ""));
-            }
+                System.out.println(member.replaceAll("\"", ""));
+                sql.AddMembersToGroup(secGroup[0], member.replaceAll("\"", ""));
+            } 
         }
+             
     }
 
 }

@@ -34,7 +34,10 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-              <Component id="lblAdUser" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lblAdUser" max="32767" attributes="0"/>
+                  <Component id="lblNTFS" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -44,7 +47,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
               <Component id="lblAdUser" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lblNTFS" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
               <Component id="btnUpload" min="-2" pref="85" max="-2" attributes="0"/>
               <EmptySpace pref="133" max="32767" attributes="0"/>
           </Group>
@@ -66,6 +71,11 @@
     <Component class="javax.swing.JLabel" name="lblAdUser">
       <Properties>
         <Property name="text" type="java.lang.String" value="adusers.csv uploaded? NO"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNTFS">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="ntfs.csv uploaded? NO"/>
       </Properties>
     </Component>
   </SubComponents>

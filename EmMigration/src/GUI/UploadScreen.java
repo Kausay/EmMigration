@@ -6,6 +6,7 @@
 package GUI;
 
 import Database.SQL;
+import emmigration.classes.NTFS;
 import emmigration.classes.ReadCSV;
 import emmigration.classes.User;
 import java.awt.Color;
@@ -28,6 +29,7 @@ public class UploadScreen extends javax.swing.JFrame {
 
     private ReadCSV read = new ReadCSV();
     private List<User> users;
+    private List<NTFS> groups;
     private SQL sql = new SQL();
 
     /**
@@ -39,6 +41,7 @@ public class UploadScreen extends javax.swing.JFrame {
         this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         this.getContentPane().setBackground(Color.BLACK);
         checkUploadedFile("adusers.csv");
+        checkUploadedFile("ntfs.csv");
     }
 
     /**
@@ -52,6 +55,7 @@ public class UploadScreen extends javax.swing.JFrame {
 
         btnUpload = new javax.swing.JButton();
         lblAdUser = new javax.swing.JLabel();
+        lblNTFS = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -67,6 +71,8 @@ public class UploadScreen extends javax.swing.JFrame {
 
         lblAdUser.setText("adusers.csv uploaded? NO");
 
+        lblNTFS.setText("ntfs.csv uploaded? NO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,7 +83,9 @@ public class UploadScreen extends javax.swing.JFrame {
                 .addGap(39, 39, 39))
             .addGroup(layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(lblAdUser)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblAdUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNTFS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,7 +93,9 @@ public class UploadScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(lblAdUser)
-                .addGap(37, 37, 37)
+                .addGap(18, 18, 18)
+                .addComponent(lblNTFS)
+                .addGap(3, 3, 3)
                 .addComponent(btnUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(133, Short.MAX_VALUE))
         );
@@ -129,6 +139,8 @@ public class UploadScreen extends javax.swing.JFrame {
         } else {
             // user changed their mind
         }
+        checkUploadedFile("adusers.csv");
+        checkUploadedFile("ntfs.csv");
     }
 
     /**
@@ -169,12 +181,22 @@ public class UploadScreen extends javax.swing.JFrame {
                 return true;
             }
         }
+        if (file.equals("ntfs.csv")) {
+            groups = sql.getGroups();
+            if (!groups.isEmpty()) {
+                lblNTFS.setText("ntfs.csv uploaded? YES");
+                lblNTFS.setForeground(Color.GREEN);
+                return true;
+            }
+        }       
         lblAdUser.setForeground(Color.RED);
+        lblNTFS.setForeground(Color.RED);
         return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpload;
     private javax.swing.JLabel lblAdUser;
+    private javax.swing.JLabel lblNTFS;
     // End of variables declaration//GEN-END:variables
 }

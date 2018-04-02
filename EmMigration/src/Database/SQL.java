@@ -25,6 +25,7 @@ public class SQL {
     private static PreparedStatement prep;
 
     private List<User> users;
+    private List<NTFS> groups = new ArrayList<>();
 
     public String getConnection() {
         try {
@@ -59,9 +60,9 @@ public class SQL {
         }
         return false;
     }
-    
-    public void AddUser(User user){
-        try{
+
+    public void AddUser(User user) {
+        try {
             prep = con.prepareStatement("INSERT INTO Em_User VALUES(?,?,?,?,?)");
             prep.setString(1, user.getFirstName());
             prep.setString(2, user.getSurName());
@@ -69,18 +70,31 @@ public class SQL {
             prep.setString(4, user.getUserPrincipalName());
             prep.setString(5, user.getSamAccountName());
             prep.executeUpdate();
-        }
-        catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-    
-    public void AddGroup(NTFS group){
-        
+
+    public void AddGroup(NTFS group) {
+        groups.add(group);
+        try {
+            prep = con.prepareStatement("INSERT INTO Em_SecurityGroups VALUES(?)");
+            prep.setString(1, group.getSecurityGroup());
+            prep.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
-    
-    public void AddMembersToGroup(NTFS group, String user){
-        
+
+    public void AddMembersToGroup(String group, String member) {
+        try {
+            prep = con.prepareStatement("INSERT INTO Em_SecurityGroups_Members VALUES(?,?)");
+            prep.setString(1, group);
+            prep.setString(2, member);
+            prep.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public List<User> getUsers() throws SQLException {
@@ -97,30 +111,18 @@ public class SQL {
             users.add(new User(FirstName, SurName, DisplayName, UserPrincipalName, SamAccountName));
         }
         return users;
-    }    
+    }
 
     public List<NTFS> getGroups() throws SQLException {
 
         List<NTFS> groups = new ArrayList<>();
-        prep = con.prepareStatement("SELECT * FROM Em_NTFS");
+        prep = con.prepareStatement("SELECT * FROM Em_SecurityGroups_Members");
         ResultSet result = prep.executeQuery();
 
         while (result.next()) {
-            List<User> members = new ArrayList<>();
-            String Group = result.getString("Group");
-            String Member = result.getString("Member");
-            NTFS group = new NTFS(Group);
-            groups.add(group);
-            String[] SplitMembers = Member.split(",");
-
-            for (String m : SplitMembers) {
-                for (User u : users) {
-                    if (m.equals(u.getSamAccountName())) {
-                        members.add(u);
-                    }
-                }
-            }
-            group.setUsers(members);
+            String groupName = result.getString("groupName");
+            String member = result.getString("member");
+            groups.add(new NTFS(groupName));
         }
         return groups;
     }
